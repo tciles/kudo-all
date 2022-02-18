@@ -1,7 +1,7 @@
 {
-  "manifest_version": 2,
+  "manifest_version": __VERSION__,
   "name": "Strava Kudo All",
-  "version": "2.4",
+  "version": "2.5",
   "description": "Kudo All Strava activities on page.",
   "default_locale": "en",
   "icons": {
