@@ -2,11 +2,11 @@ name: Makefile CI
 
 on:
   push:
-    branches: [ master ]
+    # branches: [ master ]
     tags:
       - '*'
-  pull_request:
-    branches: [ master ]
+  # pull_request:
+    # branches: [ master ]
 
 jobs:
   build:
@@ -37,5 +37,4 @@ jobs:
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "build/artefacts/kudoall-chrome.zip,build/artefacts/kudoall-firefox.zip"
-        bodyFile: "body.md"
         token: ${{ secrets.GITHUB_TOKEN }}
