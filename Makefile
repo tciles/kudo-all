@@ -1,6 +1,8 @@
 .PHONY: prepare
 prepare:
-	mkdir -p build/{temp,artefacts}
+	mkdir -p build/temp
+	mkdir -p build/artefacts
+	ls .
 	rm -rf build/temp/*
 	cp -r src/* build/temp
 
