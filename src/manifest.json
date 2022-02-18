@@ -1,5 +1,5 @@
 {
-  "manifest_version": __VERSION__,
+  "manifest_version": 2,
   "name": "Strava Kudo All",
   "version": "2.5",
   "description": "Kudo All Strava activities on page.",
