@@ -7,7 +7,7 @@ prepare:
 	cp -r src/* build/temp
 
 chrome:
-	sed -i '' 's/"manifest_version": 2/"manifest_version": 3/g' build/temp/manifest.json
+	sed -i 's/"manifest_version": 2/"manifest_version": 3/g' build/temp/manifest.json
 
 .PHONY: zip
 zip:
