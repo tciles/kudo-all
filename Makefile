@@ -1,19 +1,19 @@
 .PHONY: prepare
 prepare:
-	mkdir -p output build
-	rm -rf output/*
-	cp -r src/* output/
+	mkdir -p build/{temp,artefacts}
+	rm -rf build/temp/*
+	cp -r src/* build/temp
 
 chrome:
-	sed -i '' 's/"manifest_version": 2/"manifest_version": 3/g' output/manifest.json
+	sed -i '' 's/"manifest_version": 2/"manifest_version": 3/g' build/temp/manifest.json
 
 .PHONY: zip
 zip:
-	cd output && zip -rv kudoall.zip .
-	zip -T output/kudoall.zip
+	cd build/temp && zip -rv kudoall.zip .
+	zip -T build/temp/kudoall.zip
 
 build.chrome: prepare chrome zip
-	cp output/kudoall.zip build/kudoall-chrome.zip
+	cp build/temp/kudoall.zip build/artefacts/kudoall-chrome.zip
 
 build.firefox: prepare zip
-	cp output/kudoall.zip build/kudoall-firefox.zip
+	cp build/temp/kudoall.zip build/artefacts/kudoall-firefox.zip
