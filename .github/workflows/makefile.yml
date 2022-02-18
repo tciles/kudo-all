@@ -31,3 +31,9 @@ jobs:
       with:
         name: kudoall-firefox.zip
         path: build/artefacts/kudoall-firefox.zip
+        
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/artefacts/kudoall-chrome.zip,build/artefacts/kudoall-firefox.zip"
+        bodyFile: "body.md"
+        token: ${{ secrets.GITHUB_TOKEN }}
