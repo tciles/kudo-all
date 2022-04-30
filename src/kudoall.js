@@ -111,13 +111,9 @@ function kudoAllHandler(event) {
     }
 }
 
-window.onload = function () {
-    const container = getContainer();
+const container = getContainer();
 
-    if (!container) {
-        return;
-    }
-
+if (container) {
     const navItem = createNavItem();
     container.prepend(navItem);
 

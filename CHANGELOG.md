@@ -6,8 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.7]
+### Fixed
+- Changelog URL
+- Remove onload event to the start extension
+
+[2.7]: https://github.com/tciles/kudo-all/compare/2.6...2.7
+
 ## [2.6]
 ### Fixed
 - Add filter to delete current user activities.
 
-[2.6]: https://github.com/olivierlacan/keep-a-changelog/compare/v2.5...v2.6
+[2.6]: https://github.com/tciles/kudo-all/compare/2.5...2.6
