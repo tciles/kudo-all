@@ -28,8 +28,44 @@ function getContainer() {
     return document.querySelector(".user-nav")
 }
 
+function findKudosButtons(container) {
+    const selector = "button[data-testid='kudos_button'] > svg[data-testid='unfilled_kudos']";
+
+    if (!container) {
+        return document.querySelectorAll(selector);
+    }
+
+    return container.querySelector(selector);
+}
+
+function createFilter(athleteLink) {
+    const href = athleteLink.href
+        .replace("https://www.strava.com", "")
+        .replace("https://strava.com", "");
+
+    return item => !item.querySelector(`a[href^="${href}"]`);
+}
+
 function getKudosButtons() {
-    return document.querySelectorAll("button[data-testid='kudos_button'] > svg[data-testid='unfilled_kudos']");
+    const athleteLink = document.querySelector("#athlete-profile a[href^='/athletes']");
+
+    if (!athleteLink) {
+        return findKudosButtons();
+    }
+
+    let activities = document.querySelectorAll("div[data-testid='web-feed-entry']");
+
+    if (activities.length < 1) {
+        return findKudosButtons();
+    }
+
+    activities = Array.from(activities).filter(createFilter(athleteLink));
+
+    if (activities.length < 1) {
+        return findKudosButtons();
+    }
+
+    return activities.map(findKudosButtons).filter(item => !!item);
 }
 
 function createNavItem() {
