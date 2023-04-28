@@ -35,7 +35,7 @@ function findKudosButtons(container) {
         return document.querySelectorAll(selector);
     }
 
-    return container.querySelector(selector);
+    return container.querySelectorAll(selector);
 }
 
 function createFilter(athleteLink) {
@@ -65,7 +65,7 @@ function getKudosButtons() {
         return findKudosButtons();
     }
 
-    return activities.map(findKudosButtons).filter(item => !!item);
+    return activities.flatMap(findKudosButtons).filter(item => !!item);
 }
 
 function createNavItem() {
