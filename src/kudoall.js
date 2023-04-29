@@ -32,10 +32,10 @@ function findKudosButtons(container) {
     const selector = "button[data-testid='kudos_button'] > svg[data-testid='unfilled_kudos']";
 
     if (!container) {
-        return document.querySelectorAll(selector);
+        return Array.from(document.querySelectorAll(selector));
     }
 
-    return container.querySelector(selector);
+    return Array.from(container.querySelectorAll(selector));
 }
 
 function createFilter(athleteLink) {
@@ -65,7 +65,7 @@ function getKudosButtons() {
         return findKudosButtons();
     }
 
-    return activities.map(findKudosButtons).filter(item => !!item);
+    return activities.flatMap(findKudosButtons).filter(item => !!item);
 }
 
 function createNavItem() {
