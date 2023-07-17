@@ -7,8 +7,6 @@ try {
         _intl = browser.i18n;
     }
 } catch (err) {
-    console.log("Plugin Kudo All", err);
-
     _intl = {
         getMessage: function (messageName, substitutions) {
             if (substitutions) {
@@ -25,17 +23,32 @@ function getMessage(messageName, substitutions) {
 }
 
 function getContainer() {
-    return document.querySelector(".user-nav")
+    let container =  document.querySelector(".feed-header");
+
+    if (!container) {
+        container = document.querySelector(".feed-container.tab-content");
+        const el = document.createElement("div");
+        el.classList.add("feed-header");
+        el.style.height = "40px";
+        container.prepend(el);
+        el.style.display = "flex";
+        el.style.justifyContent = "end";
+    } else {
+        container.style.display = "flex";
+        container.style.justifyContent = "space-between";
+    }
+
+    return document.querySelector(".feed-header");
 }
 
 function findKudosButtons(container) {
     const selector = "button[data-testid='kudos_button'] > svg[data-testid='unfilled_kudos']";
 
     if (!container) {
-        return document.querySelectorAll(selector);
+        return Array.from(document.querySelectorAll(selector));
     }
 
-    return container.querySelector(selector);
+    return Array.from(container.querySelectorAll(selector));
 }
 
 function createFilter(athleteLink) {
@@ -65,21 +78,19 @@ function getKudosButtons() {
         return findKudosButtons();
     }
 
-    return activities.map(findKudosButtons).filter(item => !!item);
+    return activities.flatMap(findKudosButtons).filter(item => !!item);
 }
 
-function createNavItem() {
+function createButton() {
     const label = getMessage("kudo_all", "Kudo All");
 
-    const navItem = document.createElement("li");
-    navItem.classList.add("nav-item");
+    const navItem = document.createElement("div");
+    navItem.style.display = "flex";
 
     navItem.innerHTML = `
-    <button type="button" class="btn btn-unstyled empty">
-        <div class="app-icon-wrapper">
-            <div class="app-icon icon-kudo">${label}</div>
-            <div class="ka-progress text-caption1">${label}</div>
-        </div>
+    <button type="button" class="btn btn-default btn-sm empty">
+        <div class="app-icon icon-kudo" style="margin-right: 10px;">${label}</div>
+        <div class="ka-progress text-caption1">${label}</div>
     </button>
     `;
 
@@ -114,8 +125,10 @@ function kudoAllHandler(event) {
 const container = getContainer();
 
 if (container) {
-    const navItem = createNavItem();
-    container.prepend(navItem);
 
-    navItem.addEventListener("click", kudoAllHandler);
+
+    const button = createButton();
+    container.append(button);
+
+    button.addEventListener("click", kudoAllHandler);
 }
