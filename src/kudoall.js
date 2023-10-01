@@ -26,11 +26,14 @@ function getContainer() {
     let container =  document.querySelector(".feed-header");
 
     if (!container) {
-        container = document.querySelector(".feed-container.tab-content");
+        container = document.querySelector(".feed-ui").parentElement.querySelector('form');
+        container.style.justifyContent = "space-between";
+        container.style.maxWidth = "100%";
+
         const el = document.createElement("div");
         el.classList.add("feed-header");
         el.style.height = "40px";
-        container.prepend(el);
+        container.append(el);
         el.style.display = "flex";
         el.style.justifyContent = "end";
     } else {
@@ -87,8 +90,19 @@ function createButton() {
     const navItem = document.createElement("div");
     navItem.style.display = "flex";
 
+    const style = `
+    margin-top: 0;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: 200px;
+    float: right;
+`;
+
     navItem.innerHTML = `
-    <button type="button" class="btn btn-default btn-sm empty">
+    <button type="button" class="btn btn-default btn-sm empty" style="${style}">
         <div class="app-icon icon-kudo" style="margin-right: 10px;">${label}</div>
         <div class="ka-progress text-caption1">${label}</div>
     </button>
@@ -122,13 +136,13 @@ function kudoAllHandler(event) {
     }
 }
 
-const container = getContainer();
+window.onload = function () {
+    const container = getContainer();
 
-if (container) {
+    if (container) {
+        const button = createButton();
+        container.append(button);
 
-
-    const button = createButton();
-    container.append(button);
-
-    button.addEventListener("click", kudoAllHandler);
+        button.addEventListener("click", kudoAllHandler);
+    }
 }
