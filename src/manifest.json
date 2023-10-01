@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Strava Kudo All",
-  "version": "2.10",
+  "version": "2.11",
   "description": "Kudo All Strava automating the process of giving kudos to your fellow athletes.",
   "default_locale": "en",
   "icons": {
