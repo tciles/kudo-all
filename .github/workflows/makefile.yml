@@ -23,13 +23,13 @@ jobs:
       run: make build.chrome
     
     - name: Upload a Chrome Artifact
-      uses: actions/upload-artifact@v2.3.1
+      uses: actions/upload-artifact@v4
       with:
         name: kudoall-chrome.zip
         path: build/artefacts/kudoall-chrome.zip
       
     - name: Upload a Firefox Artifact
-      uses: actions/upload-artifact@v2.3.1
+      uses: actions/upload-artifact@v4
       with:
         name: kudoall-firefox.zip
         path: build/artefacts/kudoall-firefox.zip
