@@ -44,46 +44,6 @@ function getContainer() {
     return document.querySelector(".feed-header");
 }
 
-function findKudosButtons(container) {
-    const selector = "button[data-testid='kudos_button'] > svg[data-testid='unfilled_kudos']";
-
-    if (!container) {
-        return Array.from(document.querySelectorAll(selector));
-    }
-
-    return Array.from(container.querySelectorAll(selector));
-}
-
-function createFilter(athleteLink) {
-    const href = athleteLink.href
-        .replace("https://www.strava.com", "")
-        .replace("https://strava.com", "");
-
-    return item => !item.querySelector(`a[href^="${href}"]`);
-}
-
-function getKudosButtons() {
-    const athleteLink = document.querySelector("#athlete-profile a[href^='/athletes']");
-
-    if (!athleteLink) {
-        return findKudosButtons();
-    }
-
-    let activities = document.querySelectorAll("div[data-testid='web-feed-entry']");
-
-    if (activities.length < 1) {
-        return findKudosButtons();
-    }
-
-    activities = Array.from(activities).filter(createFilter(athleteLink));
-
-    if (activities.length < 1) {
-        return findKudosButtons();
-    }
-
-    return activities.flatMap(findKudosButtons).filter(item => !!item);
-}
-
 function createButton() {
     const label = getMessage("kudo_all", "Kudo All");
 
@@ -108,41 +68,51 @@ function createButton() {
     </button>
     `;
 
+    navItem.addEventListener("click", kudoAllHandler);
+
     return navItem;
 }
 
 function kudoAllHandler(event) {
     event.preventDefault();
 
-    const icons = getKudosButtons();
-    const len = icons.length;
+    const athleteId = Number.parseInt(document.querySelector("[data-testid='avatar-wrapper']").href.split('/').pop(), 10);
 
-    if (len < 1) {
-        return;
-    }
+    Array.from(document.querySelectorAll("[data-testid='web-feed-entry']")).forEach((entry) => {
+        const link = entry.querySelector("a[data-testid='owners-name']");
+        let feedAthleteId = -1;
 
-    for (let i = 0; i < len; i++) {
-        const item = icons[i];
-
-        if (!item) {
-            continue;
+        if (link && link.href) {
+            feedAthleteId = Number.parseInt(link.href.split("/").pop(), 10);
         }
 
-        const parentItem = item.parentElement;
-
-        if (parentItem) {
-            parentItem.click();
+        // My own activities
+        if (feedAthleteId === athleteId) {
+            return;
         }
-    }
+
+        const btn = entry.querySelector("[data-testid='kudos_button']");
+
+        if (!btn) {
+            return;
+        }
+
+        const svg = btn.querySelector("svg[data-testid='unfilled_kudos']");
+
+        if (!svg) {
+            return;
+        }
+
+        btn.click();
+    });
 }
 
 window.onload = function () {
-    const container = getContainer();
+    setTimeout(() => {
+        const container = getContainer();
 
-    if (container) {
-        const button = createButton();
-        container.append(button);
-
-        button.addEventListener("click", kudoAllHandler);
-    }
+        if (container) {
+            container.append(createButton());
+        }
+    }, 500)
 }
