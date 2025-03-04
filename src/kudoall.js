@@ -1,27 +1,3 @@
-let _intl;
-
-try {
-    if (window.chrome !== undefined) {
-        _intl = chrome.i18n;
-    } else {
-        _intl = browser.i18n;
-    }
-} catch (err) {
-    _intl = {
-        getMessage: function (messageName, substitutions) {
-            if (substitutions) {
-                return substitutions;
-            }
-
-            return messageName;
-        }
-    }
-}
-
-function getMessage(messageName, substitutions) {
-    return _intl.getMessage(messageName, substitutions);
-}
-
 function getContainer() {
     let container =  document.querySelector(".feed-header");
 
@@ -45,7 +21,7 @@ function getContainer() {
 }
 
 function createButton() {
-    const label = getMessage("kudo_all", "Kudo All");
+    const label = "Kudo All";
 
     const navItem = document.createElement("div");
     navItem.style.display = "flex";
@@ -79,40 +55,47 @@ function kudoAllHandler(event) {
     const athleteId = Number.parseInt(document.querySelector("[data-testid='avatar-wrapper']").href.split('/').pop(), 10);
 
     Array.from(document.querySelectorAll("[data-testid='web-feed-entry']")).forEach((entry) => {
-        const link = entry.querySelector("a[data-testid='owners-name']");
-        let feedAthleteId = -1;
+        Array.from(entry.querySelectorAll("[data-testid='entry-header']")).forEach((entryHeader) => {
+            const activity = entryHeader.parentElement;
 
-        if (link && link.href) {
-            feedAthleteId = Number.parseInt(link.href.split("/").pop(), 10);
-        }
+            if (!activity) {
+                return;
+            }
 
-        // My own activities
-        if (feedAthleteId === athleteId) {
-            return;
-        }
-
-        const btn = entry.querySelector("[data-testid='kudos_button']");
-
-        if (!btn) {
-            return;
-        }
-
-        const svg = btn.querySelector("svg[data-testid='unfilled_kudos']");
-
-        if (!svg) {
-            return;
-        }
-
-        btn.click();
+            Array.from(activity.querySelectorAll("a[data-testid='owners-name']")).forEach((link) => {
+                let feedAthleteId = -1;
+    
+                if (link && link.href) {
+                    feedAthleteId = Number.parseInt(link.href.split("/").pop(), 10);
+                }
+        
+                // My own activities
+                if (feedAthleteId === athleteId) {
+                    return;
+                }
+        
+                const btn = activity.querySelector("[data-testid='kudos_button']");
+        
+                if (!btn) {
+                    return;
+                }
+        
+                const svg = btn.querySelector("svg[data-testid='unfilled_kudos']");
+        
+                if (!svg) {
+                    return;
+                }
+        
+                btn.click();
+            });
+        });
     });
 }
 
-window.onload = function () {
-    setTimeout(() => {
-        const container = getContainer();
+setTimeout(() => {
+    const container = getContainer();
 
-        if (container) {
-            container.append(createButton());
-        }
-    }, 500)
-}
+    if (container) {
+        container.append(createButton());
+    }
+}, 1000);
