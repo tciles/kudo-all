@@ -2,7 +2,13 @@ function getContainer() {
     let container =  document.querySelector(".feed-header");
 
     if (!container) {
-        container = document.querySelector(".feed-ui").parentElement.querySelector('form');
+        let stravaContainer = document.querySelector(".feed-ui");
+
+        if (null === stravaContainer) {
+            stravaContainer = document.querySelector(".feature-feed")
+        }
+
+        container = stravaContainer.parentElement.querySelector('form');
         container.style.justifyContent = "space-between";
         container.style.maxWidth = "100%";
 
