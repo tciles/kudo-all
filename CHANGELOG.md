@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.22]
+### Fixed
+- Update selector after strava UI update
+
 ## [2.7]
 ### Fixed
 - Changelog URL

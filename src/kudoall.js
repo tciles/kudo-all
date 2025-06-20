@@ -58,7 +58,7 @@ function createButton() {
 function kudoAllHandler(event) {
     event.preventDefault();
 
-    const athleteId = Number.parseInt(document.querySelector("[data-testid='avatar-wrapper']").href.split('/').pop(), 10);
+    const athleteId = Number.parseInt(document.querySelector("a[data-testid='avatar-wrapper']").href.split('/').pop(), 10);
 
     Array.from(document.querySelectorAll("[data-testid='web-feed-entry']")).forEach((entry) => {
         Array.from(entry.querySelectorAll("[data-testid='entry-header']")).forEach((entryHeader) => {
