@@ -8,6 +8,10 @@ function getContainer() {
             stravaContainer = document.querySelector(".feature-feed")
         }
 
+        if (!stravaContainer) {
+            return null;
+        }
+
         container = stravaContainer.parentElement.querySelector('form');
         container.style.justifyContent = "space-between";
         container.style.maxWidth = "100%";
@@ -98,10 +102,11 @@ function kudoAllHandler(event) {
     });
 }
 
-setTimeout(() => {
+const interval = setInterval(() => {
     const container = getContainer();
 
     if (container) {
         container.append(createButton());
+        clearInterval(interval);
     }
 }, 1000);
